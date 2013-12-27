@@ -6,8 +6,8 @@ type Interface sort.Interface
 
 func Ue(data Interface) int {
 	len := data.Len()
-	if len == 0 {
-		return 0
+	if len <= 1 {
+		return len
 	}
 	i, j := 0, 1
 	// find the first duplicate
