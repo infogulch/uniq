@@ -1,21 +1,24 @@
-package uniq
+package uniq_test
 
-import "math/rand"
-import "sort"
-import "testing"
+import (
+	"github.com/infogulch/uniq"
+	"math/rand"
+	"sort"
+	"testing"
+)
 
-type uniquerFunc func(Interface) int
+type uniquerFunc func(uniq.Interface) int
 
-func (f uniquerFunc) unique(i Interface) int {
+func (f uniquerFunc) unique(i uniq.Interface) int {
 	return f(i)
 }
 
 type uniquer interface {
-	unique(Interface) int
+	unique(uniq.Interface) int
 }
 
-var tUniq uniquerFunc = uniquerFunc(Uniq)
-var tStable uniquerFunc = uniquerFunc(Stable)
+var tUniq uniquerFunc = uniquerFunc(uniq.Uniq)
+var tStable uniquerFunc = uniquerFunc(uniq.Stable)
 
 // Generic test instances below
 func TestUniqEmpty(t *testing.T)   { testUniqEmpty(tUniq, t) }
