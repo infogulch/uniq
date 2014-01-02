@@ -1,12 +1,18 @@
-// Package uniq provides primitives for getting the first unique elements of slices or user-defined collections from an already sorted list using your existing sort.Interface
+// Package uniq provides primitives for getting the first unique elements of
+// slices or user-defined collections from an already sorted list using your
+// existing sort.Interface.
 package uniq
 
 import "sort"
 
 type Interface sort.Interface
 
-// Uniq moves the unique elements from a sorted sort.Interface to the beginning of the collection, while keeping them in sorted order, and returns the length of the portion of the collection that has unique elements.
-// The area where the duplicates are stored is no longer sorted.
+// Uniq moves the first unique elements to the beginning of the *sorted*
+// collection and returns the number of unique elements.
+//
+// It makes one call to data.Len to determine n, n-1 calls to data.Less, and
+// O(n) calls to data.Swap. The unique elements remain in original sorted order,
+// but the duplicate elements do not.
 func Uniq(data Interface) int {
 	len := data.Len()
 	if len <= 1 {
@@ -28,6 +34,12 @@ func Uniq(data Interface) int {
 	return i + 1
 }
 
+// Stable moves the first unique elements to the beginning of the *sorted*
+// collection and returns the number of unique elements, but also keeps the
+// original order of duplicate elements.
+//
+// It makes one call to data.Len, O(n) calls to data.Less, and O(n*log(n)) calls
+// to data.Swap.
 func Stable(data Interface) int {
 	return stable(data, 0, data.Len())
 }
@@ -43,15 +55,18 @@ func stable(data Interface, start, end int) int {
 	ua := stable(data, start, mid)
 	ub := stable(data, mid, end)
 	if ua > 0 && ub > 0 && !data.Less(start+ua-1, mid) {
-		mid++ // the first element in B is present in a
+		mid++ // the first element in B is present in A
 		ub--
 	}
 	shift(data, start+ua, mid, mid+ub)
 	return ua + ub
 }
 
-// shift exchanges elements in a sort.Interface from range [start,mid) with those in range [mid,end).
-// Performs (end-start) swaps and accesses each element twice in the worst & average case, and (end-start)/2 swaps and accesses each element once in the best case.
+// shift exchanges elements in a sort.Interface from range [start,mid) with
+// those in range [mid,end).
+//
+// It makes n calls to data.Swap in the average & worst case, and n/2 calls to
+// data.Swap in the best case.
 func shift(data Interface, start, mid, end int) {
 	if start >= mid || mid >= end {
 		return // no elements to shift
@@ -66,8 +81,10 @@ func shift(data Interface, start, mid, end int) {
 	reverse(data, start, end)
 }
 
-// reverse transposes elements in a sort.Interface so that the elements in range [start,end) are in reverse order.
-// Performs (end-start)/2 swaps, and acceses each element from start to end once.
+// reverse transposes elements in a sort.Interface so that the elements in range
+// [start,end) are in reverse order.
+//
+// It makes n/2 calls to data.Swap.
 func reverse(data Interface, start, end int) {
 	end--
 	for start < end {
@@ -77,10 +94,11 @@ func reverse(data Interface, start, end int) {
 	}
 }
 
-// swapn transposes the elements in two sections of equal length in a sort.Interface.
+// swapn swaps the elements in two sections of equal length in a sort.Interface.
 // The sections start at indices i & j.
-// If the sections overlap (i.e. min(i,j)+len > max(i,j)) the result is undefined.
-// Performs len swaps and acceses each element once.
+//
+// If the sections overlap (i.e. min(i,j)+n > max(i,j)) the result is undefined.
+// It makes n calls to data.Swap.
 func swapn(data Interface, i, j, n int) {
 	for n > 0 {
 		n--
