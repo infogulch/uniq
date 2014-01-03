@@ -54,7 +54,7 @@ func testUniqRandom(unique uniquer, t *testing.T, size, count int) {
 		for i, _ := range a {
 			a[i] = rand.Intn(size)
 		}
-		sort.Sort(sort.IntSlice(a))
+		sort.Ints(a)
 		b := a[:unique(sort.IntSlice(a))]
 		compareIntSlice(b, u, t)
 	}

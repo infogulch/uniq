@@ -10,12 +10,18 @@ sort.Interface.
 * [func Uniq(data Interface) int](#func-uniq)
 * [func Stable(data Interface) int](#func-stable)
 * [func IsUnique(data Interface) bool](#func-isunique)
+* [func Float64s(a []float64) int](#func-float64s)
+* [func Float64sAreUnique(a []float64) bool](#func-float64sareunique)
+* [func Ints(a []int) int](#func-ints)
+* [func IntsAreUnique(a []int) bool](#func-intsareunique)
+* [func Strings(a []string) int](#func-strings)
+* [func StringsAreUnique(a []string) bool](#func-stringsareunique)
 * [type Interface](#type-interface)
 
 #### Example
 ```go
 a := []int{1, 2, 3, 3, 3, 4, 5, 6, 7, 8, 9, 9, 9} // already sorted
-a = a[:uniq.Uniq(sort.IntSlice(a))]
+a = a[:uniq.Ints(a)]
 fmt.Println(a)
 ```
 
@@ -60,6 +66,60 @@ IsUnique reports whether data is sorted and unique.
 
 --
 
+#### func Float64s
+
+```go
+func Float64s(a []float64) int
+```
+Float64s calls unique on a slice of float64.
+
+--
+
+#### func Float64sAreUnique
+
+```go
+func Float64sAreUnique(a []float64) bool
+```
+Float64sAreUnique tests whether the slice of float64 is sorted and unique.
+
+--
+
+#### func Ints
+
+```go
+func Ints(a []int) int
+```
+Ints calls unique on a slice of int.
+
+--
+
+#### func IntsAreUnique
+
+```go
+func IntsAreUnique(a []int) bool
+```
+IntsAreUnique tests whether the slice of int is sorted and unique.
+
+--
+
+#### func Strings
+
+```go
+func Strings(a []string) int
+```
+Strings calls unique on a slice of string.
+
+#### func StringsAreUnique
+
+--
+
+```go
+func StringsAreUnique(a []string) bool
+```
+StringsAreUnique tests whether the slice of string is sorted and unique.
+
+--
+
 #### type Interface
 
 ```go
@@ -73,4 +133,4 @@ type Interface interface {
 	Swap(i, j int)
 }
 ```
-Identical to the sort package interface.
+Interface to use the uniq package. Identical to sort.Interface.

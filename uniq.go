@@ -3,6 +3,9 @@
 // existing sort.Interface.
 package uniq
 
+import "sort"
+
+// Interface to use the uniq package. Identical to sort.Interface.
 type Interface interface {
 	// Len returns the number of elements.
 	Len() int
@@ -77,6 +80,36 @@ func IsUnique(data Interface) bool {
 		}
 	}
 	return true
+}
+
+// Float64s calls unique on a slice of float64.
+func Float64s(a []float64) int {
+	return Uniq(sort.Float64Slice(a))
+}
+
+// Float64sAreUnique tests whether the slice of float64 is sorted and unique.
+func Float64sAreUnique(a []float64) bool {
+	return IsUnique(sort.Float64Slice(a))
+}
+
+// Ints calls unique on a slice of int.
+func Ints(a []int) int {
+	return Uniq(sort.IntSlice(a))
+}
+
+// IntsAreUnique tests whether the slice of int is sorted and unique.
+func IntsAreUnique(a []int) bool {
+	return IsUnique(sort.IntSlice(a))
+}
+
+// Strings calls unique on a slice of string.
+func Strings(a []string) int {
+	return Uniq(sort.StringSlice(a))
+}
+
+// StringsAreUnique tests whether the slice of string is sorted and unique.
+func StringsAreUnique(a []string) bool {
+	return IsUnique(sort.StringSlice(a))
 }
 
 // shift exchanges elements in a sort.Interface from range [start,mid) with
