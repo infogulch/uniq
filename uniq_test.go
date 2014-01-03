@@ -87,8 +87,33 @@ func TestUniqAllDuplicate(t *testing.T)   { testUniqAllDuplicate(uniq.Uniq, t) }
 func TestStableAllDuplicate(t *testing.T) { testUniqAllDuplicate(uniq.Stable, t) }
 
 // types for stability tests
+type Pair struct{ a, b int }
+type Pairs []Pair
 
-// stability tests
+func (p Pairs) Len() int           { return len(p) }
+func (p Pairs) Swap(i, j int)      { p[i], p[j] = p[j], p[i] }
+func (p Pairs) Less(i, j int) bool { return p[i].a < p[j].a }
+
+func TestStability(t *testing.T) {
+	n := 10000
+	a := make([]Pair, n)
+	for i, _ := range a {
+		a[i] = Pair{rand.Intn(100), i}
+	}
+	sort.Stable(Pairs(a))
+	r := uniq.Stable(Pairs(a))
+	if !uniq.IsSortedUnique(Pairs(a[:r])) {
+		t.Errorf("Not unique")
+	}
+	if !sort.IsSorted(Pairs(a[r:])) {
+		t.Errorf("Not sorted")
+	}
+	for i := 1; i < n; i++ {
+		if a[i-1].a == a[i].a && a[i-1].b >= a[i].b {
+			t.Errorf("Not stable")
+		}
+	}
+}
 
 // helper functions
 func compareIntSlice(a, b []int, t *testing.T) {
