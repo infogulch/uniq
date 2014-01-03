@@ -9,7 +9,7 @@ sort.Interface.
 #### Index
 * [func Uniq(data Interface) int](#func-uniq)
 * [func Stable(data Interface) int](#func-stable)
-* [func IsSortedUnique(data Interface) bool](#func-issortedunique)
+* [func IsUnique(data Interface) bool](#func-isunique)
 * [type Interface](#type-interface)
 
 #### Example
@@ -51,12 +51,12 @@ data.Swap.
 
 --
 
-#### func IsSortedUnique
+#### func IsUnique
 
 ```go
-func IsSortedUnique(data Interface) bool
+func IsUnique(data Interface) bool
 ```
-IsSortedUnique reports whether data is sorted and unique.
+IsUnique reports whether data is sorted and unique.
 
 --
 

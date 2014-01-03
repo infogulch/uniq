@@ -102,7 +102,7 @@ func TestStability(t *testing.T) {
 	}
 	sort.Stable(Pairs(a))
 	r := uniq.Stable(Pairs(a))
-	if !uniq.IsSortedUnique(Pairs(a[:r])) {
+	if !uniq.IsUnique(Pairs(a[:r])) {
 		t.Errorf("Not unique")
 	}
 	if !sort.IsSorted(Pairs(a[r:])) {

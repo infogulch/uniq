@@ -68,8 +68,8 @@ func stable(data Interface, start, end int) int {
 	return ua + ub
 }
 
-// IsSortedUnique reports whether data is sorted and unique.
-func IsSortedUnique(data Interface) bool {
+// IsUnique reports whether data is sorted and unique.
+func IsUnique(data Interface) bool {
 	n := data.Len() - 1
 	for i := 0; i < n; i++ {
 		if !data.Less(i, i+1) {
