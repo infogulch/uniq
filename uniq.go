@@ -3,9 +3,15 @@
 // existing sort.Interface.
 package uniq
 
-import "sort"
-
-type Interface sort.Interface
+type Interface interface {
+	// Len returns the number of elements.
+	Len() int
+	// Less tells if the element at index i should come
+	// before the element at index j.
+	Less(i, j int) bool
+	// Swap swaps the elements at indexes i and j.
+	Swap(i, j int)
+}
 
 // Uniq moves the first unique elements to the beginning of the *sorted*
 // collection and returns the number of unique elements.
