@@ -62,6 +62,17 @@ func stable(data Interface, start, end int) int {
 	return ua + ub
 }
 
+// IsSortedUnique reports whether data is sorted and unique.
+func IsSortedUnique(data Interface) bool {
+	n := data.Len() - 1
+	for i := 0; i < n; i++ {
+		if !data.Less(i, i+1) {
+			return false
+		}
+	}
+	return true
+}
+
 // shift exchanges elements in a sort.Interface from range [start,mid) with
 // those in range [mid,end).
 //
