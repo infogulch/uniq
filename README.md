@@ -12,6 +12,22 @@ sort.Interface.
 
 Output: `[1 2 3 4 5 6 7 8 9]`
 
+The unique functions return the length of the unique portion of the collection,
+and using the return value as the start or end index in a slice operation (as in
+the example above) makes it easy to get the result you need when using slices.
+
+*Why use this instead of a map?* uniq doesn't need extra memory. If you're
+sorting already or the result needs to be sorted uniq is faster. Uniq is much
+easier to use and implement in your code, and more easily extended.
+
+*Why use a sort.Interface?* Because the algorithms require the data be sorted
+beforehand anyway, so you don't have to have to implement anything else, and
+because they don't need any more. `Uniq` is O(n) and probably couldn't be
+much faster even considering the sort step without using more memory. `Stable`
+is slower and I've considered extending the interface to support copying
+elements to a duplicates buffer but nobody has expressed a need.
+
+--
 #### Index
 * [func Uniq(data Interface) int](#func-uniq)
 * [func Stable(data Interface) int](#func-stable)
@@ -24,8 +40,7 @@ Output: `[1 2 3 4 5 6 7 8 9]`
 * [func StringsAreUnique(a []string) bool](#func-stringsareunique)
 * [type Interface](#type-interface)
 
-## Usage
-
+--
 #### func Uniq
     func Uniq(data Interface) int
 
