@@ -1,10 +1,16 @@
 # uniq
-
     import "github.com/infogulch/uniq"
 
 Package uniq provides primitives for getting the first unique elements of slices
 or user-defined collections from an *already sorted* list using your existing
 sort.Interface.
+
+#### Example
+    a := []int{1, 2, 3, 3, 3, 4, 5, 6, 7, 8, 9, 9, 9} // already sorted
+    a = a[:uniq.Ints(a)]
+    fmt.Println(a)
+
+Output: `[1 2 3 4 5 6 7 8 9]`
 
 #### Index
 * [func Uniq(data Interface) int](#func-uniq)
@@ -18,22 +24,11 @@ sort.Interface.
 * [func StringsAreUnique(a []string) bool](#func-stringsareunique)
 * [type Interface](#type-interface)
 
-#### Example
-```go
-a := []int{1, 2, 3, 3, 3, 4, 5, 6, 7, 8, 9, 9, 9} // already sorted
-a = a[:uniq.Ints(a)]
-fmt.Println(a)
-```
-
-    [1 2 3 4 5 6 7 8 9]
-
 ## Usage
 
 #### func Uniq
+    func Uniq(data Interface) int
 
-```go
-func Uniq(data Interface) int
-```
 Uniq moves the first unique elements to the beginning of the *sorted* collection
 and returns the number of unique elements.
 
@@ -42,12 +37,9 @@ calls to data.Swap. The unique elements remain in original sorted order, but the
 duplicate elements do not.
 
 --
-
 #### func Stable
+    func Stable(data Interface) int
 
-```go
-func Stable(data Interface) int
-```
 Stable moves the first unique elements to the beginning of the *sorted*
 collection and returns the number of unique elements, but also keeps the
 original order of duplicate elements.
@@ -56,81 +48,57 @@ It makes one call to data.Len, O(n) calls to data.Less, and O(n*log(n)) calls to
 data.Swap.
 
 --
-
 #### func IsUnique
+    func IsUnique(data Interface) bool
 
-```go
-func IsUnique(data Interface) bool
-```
 IsUnique reports whether data is sorted and unique.
 
 --
-
 #### func Float64s
+    func Float64s(a []float64) int
 
-```go
-func Float64s(a []float64) int
-```
 Float64s calls unique on a slice of float64.
 
 --
-
 #### func Float64sAreUnique
+    func Float64sAreUnique(a []float64) bool
 
-```go
-func Float64sAreUnique(a []float64) bool
-```
 Float64sAreUnique tests whether the slice of float64 is sorted and unique.
 
 --
-
 #### func Ints
+    func Ints(a []int) int
 
-```go
-func Ints(a []int) int
-```
 Ints calls unique on a slice of int.
 
 --
-
 #### func IntsAreUnique
+    func IntsAreUnique(a []int) bool
 
-```go
-func IntsAreUnique(a []int) bool
-```
 IntsAreUnique tests whether the slice of int is sorted and unique.
 
 --
-
 #### func Strings
+    func Strings(a []string) int
 
-```go
-func Strings(a []string) int
-```
 Strings calls unique on a slice of string.
 
-#### func StringsAreUnique
-
 --
+#### func StringsAreUnique
+    func StringsAreUnique(a []string) bool
 
-```go
-func StringsAreUnique(a []string) bool
-```
 StringsAreUnique tests whether the slice of string is sorted and unique.
 
 --
-
 #### type Interface
+    type Interface interface {
+        // Len returns the number of elements.
+        Len() int
+        // Less tells if the element at index i should come
+        // before the element at index j.
+        Less(i, j int) bool
+        // Swap swaps the elements at indexes i and j.
+        Swap(i, j int)
+    }
 
-```go
-type Interface interface {
-	// Len returns the number of elements.
-	Len() int
-	// Less tells if the element at index i should come
-	// before the element at index j.
-	Less(i, j int) bool
-	// Swap swaps the elements at indexes i and j.
-	Swap(i, j int)
-}
-```
 Interface to use the uniq package. Identical to sort.Interface.
