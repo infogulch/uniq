@@ -3,7 +3,7 @@
 
 Package uniq provides primitives for getting the first unique elements of slices
 or user-defined collections from an *already sorted* list using your existing
-sort.Interface.
+sort.Interface. Under the MIT license (see [LICENSE.txt](LICENSE.txt)).
 
 #### Example
     a := []int{1, 2, 3, 3, 3, 4, 5, 6, 7, 8, 9, 9, 9} // already sorted
